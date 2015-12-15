@@ -1,3 +1,5 @@
+var mongoose = require('mongoose');
+
 function encrypt(password) {
     return password;
 }
@@ -12,11 +14,12 @@ exports.isLoggedIn = function(req, res, next) {
 };
 
 exports.serializeUser = function(user, done) {
-    return done(null, user._id);
+    return done(null, user._id.id);
 };
 
 exports.deserializeUser = function(Students, Tutors) {
     return function(id, done) {
+        id = new mongoose.Types.ObjectId(id)
         Students.findById(id).exec().then(function(student) {
             if (student) {
                  return done(null, student);
@@ -38,19 +41,17 @@ exports.register = function(Model) {
     return function(request, email, password, done) {
         Model.findOne({email: email}).exec().then(function(user) {
             if (user) {
-                return done(null, false, req.flash('SignupMessage',
-                    'That email is already taken.'));
+                return done(null, false);
             }
             var newUser = new Model();
             newUser.email = email;
             newUser.password = encrypt(password);
-            newUser.courses = request.body.user.courses;
-            newUser.save().exec().then(function(err) {
+            newUser.courses = ['Math'];
+            newUser.save(function(err) {
                 // TODO: handle error
                 return done(null, newUser);
-            });
-        },
-        function(error) {
+            })
+        }, function(error) {
             done(error);
         });
     };
@@ -60,13 +61,16 @@ exports.login = function(Model) {
     return function(request, email, password, done) {
         Model.findOne({email: email, password: encrypt(password)}).exec().then(
             function(user) {
-                if (!user) {
-                    return done(null, false, req.flash('LoginMessage', 'No user found.'));
+                if (user) {
+                    return done(null, user);
                 }
-                return done(null, user);
-            },
-            function(error) {
+                return done(null, false);
+            }, function(error) {
                 done(error);
             });
     };
+};
+
+exports.success = function(request, response) {
+    response.send(200);
 };

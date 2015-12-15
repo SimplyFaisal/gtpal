@@ -2,22 +2,24 @@ var express = require('express');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-var app = require('./server');
 var schemas = require('./schema');
 var authentication = require('./authentication');
 
 var router = express.Router();
 var Tutors = schemas.Tutor;
+var strategyOptions = {
+    usernameField : 'email',
+    passwordField : 'password',
+    passReqToCallback : true,
+};
+passport.use('tutor-registration', new LocalStrategy(strategyOptions, authentication.register(Tutors)));
+passport.use('tutor-login', new LocalStrategy(strategyOptions, authentication.login(Tutors)));
 
-passport.use('tutor-registration', new LocalStrategy({
+var options = {
+    failureFlash: true
+};
 
-}, authentication.register(Tutors)));
-
-passport.use('tutor-login', new LocalStrategy({
-
-}, authentication.login(Tutors)));
-
-router.post('/register', passport.authenticate('tutor-registration'));
-router.post('/login', passport.authenticate('tutor-login'));
+router.post('/register', passport.authenticate('tutor-registration', options), authentication.success);
+router.post('/login', passport.authenticate('tutor-login', options), authentication.success);
 
 module.exports = router;
