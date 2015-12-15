@@ -6,11 +6,11 @@ function encrypt(password) {
 
 exports.encrypt = encrypt;
 
-exports.isLoggedIn = function(req, res, next) {
-    if (req.isAuthenticated()) {
+exports.isLoggedIn = function(request, response, next) {
+    if (request.isAuthenticated()) {
         return next();
     }
-    req.flash('UnautherizedMessage', 'Not Authorized');
+    request.flash('UnautherizedMessage', 'Not Authorized');
 };
 
 exports.serializeUser = function(user, done) {
@@ -41,7 +41,7 @@ exports.register = function(Model) {
     return function(request, email, password, done) {
         Model.findOne({email: email}).exec().then(function(user) {
             if (user) {
-                return done(null, false);
+                return done(null, false, {message: "User already exists"});
             }
             var newUser = new Model();
             newUser.email = email;
@@ -59,15 +59,37 @@ exports.register = function(Model) {
 
 exports.login = function(Model) {
     return function(request, email, password, done) {
-        Model.findOne({email: email, password: encrypt(password)}).exec().then(
+        Model.findOne({email: email}).exec().then(
             function(user) {
-                if (user) {
-                    return done(null, user);
+                if (!user) {
+                    return done(null, false, {message: "Wrong Email"});
                 }
-                return done(null, false);
+                if (!user.validPassword(password)) {
+                    return done(null, false, {message: "Wrong Password"});
+                }
+                return done(null, user, {message: "success"});
             }, function(error) {
                 done(error);
             });
+    };
+};
+
+exports.handler = function(passport, strategy) {
+    return function(request, response, next) {
+        passport.authenticate(strategy, function(error, user, info) {
+            if (error) {
+                return next(error);
+            }
+            if (!user) {
+                return response.send(info.message);
+            }
+            request.login(user, function(error) {
+                if (error) {
+                    return next(error);
+                }
+                return response.send("success");
+            })
+        })(request, response, next);
     };
 };
 

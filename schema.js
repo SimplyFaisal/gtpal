@@ -3,12 +3,14 @@ var mongoose = require('mongoose');
 var TutorSchema = new mongoose.Schema({
     name: String,
     email: String,
+    password: String,
     courses: [String]
 });
 
 var StudentSchema = new mongoose.Schema({
     name: String,
     email: String,
+    password: String,
     courses: [String]
 });
 
@@ -16,7 +18,8 @@ var QuestionSchema =  new mongoose.Schema({
     date: {type: Date, default: Date.now},
     content: String,
     student: {type: mongoose.Schema.Types.ObjectId, ref: 'students'},
-    course: [String]
+    course: [String],
+    anonymous: Boolean
 });
 
 var VideoSchema = new mongoose.Schema({
@@ -27,10 +30,18 @@ var VideoSchema = new mongoose.Schema({
 });
 
 var CourseSchema = new mongoose.Schema({
-    name: String,
+    major: String,
+    number: String,
     numTutors: Number,
     numVideos: Number
 });
+
+function validPassword(password) {
+    return this.password == password;
+}
+
+TutorSchema.methods.validPassword = validPassword;
+StudentSchema.methods.validPassword = validPassword;
 
 exports.Tutor = mongoose.model('Tutor', TutorSchema);
 exports.Student = mongoose.model('Student', StudentSchema);

@@ -19,7 +19,7 @@ var options = {
     failureFlash: true
 };
 
-router.post('/register', passport.authenticate('tutor-registration', options), authentication.success);
-router.post('/login', passport.authenticate('tutor-login', options), authentication.success);
+router.post('/register', authentication.handler(passport, 'tutor-registration'));
+router.post('/login', authentication.handler(passport, 'tutor-login'));
 
 module.exports = router;
