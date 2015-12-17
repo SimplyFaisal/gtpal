@@ -29,6 +29,7 @@ app.use(flash());
 
 app.use('/tutor', require('./tutors'));
 app.use('/student', require('./students'));
+app.use('/course', require('./courses'))
 
 var server = app.listen(3000, function () {
     var host = server.address().address;

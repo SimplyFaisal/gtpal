@@ -8,12 +8,40 @@ gtpal.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('home', {
             url:'/home',
+            templateUrl: 'src/home/home-template.html'
+        })
+
+        .state('signin', {
+            url:'/signin',
+            templateUrl: 'src/signin/signin-template.html'
+        })
+        .state('signin.tutor', {
+            url: '/tutor',
+            templateUrl: 'src/signin/role-template.html'
+
+        })
+        .state('signin.student', {
+            url: '/student',
+            templateUrl: 'src/signin/role-template.html'
+
+        })
+        .state('signup', {
             views: {
                 '': {
-                    templateUrl: 'src/home/home-template.html'
+                    templateUrl: 'src/signup/signup-template.html'
                 }
             }
         })
+        .state('signup.tutor', {
+            url: '/tutor',
+            templateUrl: 'src/signup/signup-form.html'
 
+        })
+        .state('signup.student', {
+            url: '/student',
+            templateUrl: 'src/signup/signup-form.html'
+
+        })
 });
+
 })();
