@@ -32,8 +32,8 @@ var VideoSchema = new mongoose.Schema({
 var CourseSchema = new mongoose.Schema({
     major: String,
     number: String,
-    numTutors: Number,
-    numVideos: Number
+    numTutors: {type: Number, default: 0},
+    numVideos: {type: Number, default: 0}
 });
 
 function validPassword(password) {

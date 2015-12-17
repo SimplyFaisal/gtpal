@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 
+// TODO: salt and hash passwords.
 function encrypt(password) {
     return password;
 }
