@@ -5,7 +5,7 @@ var schemas = require('./schema');
 var router = express.Router();
 var Courses = schemas.Course;
 
-router.get('/majors', function(request, response) {
+router.get('/', function(request, response) {
     Courses.distinct('major').exec().then(function(results) {
         response.json(results);
     }, function(error) {

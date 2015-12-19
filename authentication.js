@@ -63,7 +63,7 @@ exports.login = function(Model) {
         Model.findOne({email: email}).exec().then(
             function(user) {
                 if (!user) {
-                    return done(null, false, {message: "Wrong Email"});
+                    return done(null, false, {message: "Looks like that email doesn't exist"});
                 }
                 if (!user.validPassword(password)) {
                     return done(null, false, {message: "Wrong Password"});
@@ -82,13 +82,14 @@ exports.handler = function(passport, strategy) {
                 return next(error);
             }
             if (!user) {
-                return response.send(info.message);
+                response.status(401);
+                return response.send(info);
             }
             request.login(user, function(error) {
                 if (error) {
                     return next(error);
                 }
-                return response.send("success");
+                return response.json(user);
             })
         })(request, response, next);
     };

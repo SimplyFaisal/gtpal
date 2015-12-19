@@ -1,7 +1,7 @@
-(function() {
+(function(angular) {
 
 'use strict'
-var gtpal = angular.module('gtpal', ['ui.router']);
+var gtpal = angular.module('gtpal', ['ui.router', 'ngResource']);
 
 gtpal.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/home');
@@ -13,7 +13,9 @@ gtpal.config(function($stateProvider, $urlRouterProvider) {
 
         .state('signin', {
             url:'/signin',
-            templateUrl: 'src/signin/signin-template.html'
+            templateUrl: 'src/signin/signin-template.html',
+            controller: 'LoginController',
+            controllerAs: 'loginControl'
         })
         .state('signin.tutor', {
             url: '/tutor',
@@ -34,14 +36,12 @@ gtpal.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('signup.tutor', {
             url: '/tutor',
-            templateUrl: 'src/signup/signup-form.html'
-
+            templateUrl: 'src/signup/signup-form.html',
         })
         .state('signup.student', {
             url: '/student',
-            templateUrl: 'src/signup/signup-form.html'
-
+            templateUrl: 'src/signup/signup-form.html',
         })
 });
 
-})();
+})(angular);

@@ -6,7 +6,7 @@ var schemas = require('./schema');
 var authentication = require('./authentication');
 
 var router = express.Router();
-var Students = schemas.Students;
+var Students = schemas.Student;
 var strategyOptions = {
     usernameField : 'email',
     passwordField : 'password',

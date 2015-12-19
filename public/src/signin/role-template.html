@@ -2,13 +2,22 @@
     <form class="form-signin">
         <h2 class="form-signin-heading"></h2>
 
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <div class="alert alert-dismissible alert-danger"
+             ng-show="loginControl.error">
+            <strong>Oh snap!</strong> <a class="alert">
+            {{loginControl.error.message}}
+        </div>
 
         <h2 class="form-signin-heading"></h2>
-        <button class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
-      </form>
+
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" ng-model="loginControl.email" required autofocus>
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" ng-model="loginControl.password"required>
+
+        <h2 class="form-signin-heading"></h2>
+
+        <button ng-click="loginControl.submit()"class="btn btn-lg btn-success btn-block" type="submit">Sign in</button>
+    </form>
 </div>
