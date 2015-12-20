@@ -28,11 +28,10 @@ gtpal.config(function($stateProvider, $urlRouterProvider) {
 
         })
         .state('signup', {
-            views: {
-                '': {
-                    templateUrl: 'src/signup/signup-template.html'
-                }
-            }
+            url: '/signup',
+            templateUrl: 'src/signup/signup-template.html',
+            controller: 'RegisterController',
+            controllerAs: 'registerControl'
         })
         .state('signup.tutor', {
             url: '/tutor',

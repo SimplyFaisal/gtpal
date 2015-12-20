@@ -6,3 +6,7 @@ html, body {
 .inline {
     display: inline-block;
 }
+
+.full-buffer {
+    margin: 3px;
+}

@@ -1,0 +1,10 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{major}}</h3>
+    </div>
+    <div class="panel-body">
+        <a class="btn full-buffer {{getColor(course._id)}}"
+           ng-repeat="course in courses"
+           ng-click="addCourse(course._id)">{{course.number}}</a>
+    </div>
+</div>

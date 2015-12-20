@@ -1,21 +1,56 @@
-<div class="row">
-     <form class="form-signin">
-        <h2 class="form-signin-heading"></h2>
-
-        <label for="inputEmail" class="sr-only">Full Name</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Full Name" required autofocus>
-
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-
-         <label for="inputPassword" class="sr-only">Confirm Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Confirm Password" required>
-
-
-        <h2 class="form-signin-heading"></h2>
-        <button class="btn btn-lg btn-success btn-block" type="submit">sign up</button>
-      </form>
-</div>
+<div>
+    <div class="row">
+        <form class="form-signin">
+            <h2 class="form-signin-heading"></h2>
+            <div class="alert alert-dismissible alert-danger"
+                ng-show="loginControl.error">
+                <strong>Oh snap!</strong> <a class="alert">
+                    {{loginControl.error.message}}
+            </div>
+            <label for="inputEmail" class="sr-only">Full Name</label>
+            <input type="text"
+            id="inputFullName"
+            class="form-control"
+            placeholder="Full Name"
+            ng-model="registerControl.fullName"
+            required autofocus>
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input type="email"
+            id="inputEmail"
+            class="form-control"
+            placeholder="Email address"
+            ng-model="registerControl.email"
+            required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password"
+            id="inputPassword"
+            class="form-control"
+            placeholder="Password"
+            ng-model="registerControl.password"
+            required>
+            <label for="inputPassword" class="sr-only">Confirm Password</label>
+            <input type="password"
+            id="inputPassword"
+            class="form-control"
+            placeholder="Confirm Password"
+            ng-model="registerControl.confirmPassword" required>
+            <h2 class="form-signin-heading"></h2>
+        </form>
+        </div>
+        <div class="row">
+            <p class="text-center">{{registerControl.courseText()}}</p>
+            <course-selection-card
+                ng-repeat="course in registerControl.majors"
+                major="course"
+                selected="registerControl.selected">
+            </course-selection-card>
+            <div class="alert alert-dismissible alert-danger"
+                ng-show="loginControl.error">
+                <strong>Oh snap!</strong> <a class="alert">
+                    {{loginControl.error.message}}
+            </div>
+            <button class="btn btn-lg btn-success btn-block"
+                type="submit"
+                ng-click="registerControl.submit()">sign up</button>
+        </div>
+    </div>

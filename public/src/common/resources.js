@@ -14,14 +14,12 @@ function Student($resource) {
     return $resource('/student/:id', {id: '@id'}, {
         login:  {
             method: 'POST',
-            url: 'tutor/login',
+            url: 'student/login',
 
         },
         register:  {
             method: 'POST',
-            url: 'student/register',
-            params: {email: true, password: true, courses: true},
-
+            url: 'student/register'
         }
     });
 }
@@ -35,9 +33,7 @@ function Tutor($resource) {
         },
         register:  {
             method: 'POST',
-            url: 'tutor/register',
-            params: {email: true, password: true, courses: true},
-
+            url: 'tutor/register'
         }
     });
 }

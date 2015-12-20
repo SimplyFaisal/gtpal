@@ -45,11 +45,15 @@ exports.register = function(Model) {
                 return done(null, false, {message: "User already exists"});
             }
             var newUser = new Model();
+            newUser.name = request.body.fullName;
             newUser.email = email;
             newUser.password = encrypt(password);
-            newUser.courses = ['Math'];
+            newUser.courses = request.body.courses.map(function(id) {return new mongoose.Types.ObjectId(id)});
             newUser.save(function(err) {
                 // TODO: handle error
+                if (err) {
+                    return done(err);
+                }
                 return done(null, newUser);
             })
         }, function(error) {
