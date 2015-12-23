@@ -41,6 +41,14 @@ gtpal.config(function($stateProvider, $urlRouterProvider) {
             url: '/student',
             templateUrl: 'src/signup/signup-form.html',
         })
+        .state('student', {
+            url: '/student',
+            views: {
+                '': {
+                    templateUrl: 'src/student/student-main-template.html'
+                }
+            }
+        })
 });
 
 })(angular);

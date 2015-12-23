@@ -3,6 +3,7 @@
 var gtpal = angular.module('gtpal');
 
 gtpal.service('AuthenticationService', AuthenticationService);
+gtpal.service('Session', Session);
 
 AuthenticationService.$inject = ['$http'];
 function AuthenticationService($http) {
@@ -19,4 +20,18 @@ function AuthenticationService($http) {
 
     };
 }
+
+function Session() {
+    var currentUser = null;
+
+    this.setCurrentUser = function(user) {
+        currentUser = user;
+    };
+
+    this.getCurrentUser = function() {
+        return currentUser;
+    };
+}
+
+
 })(angular)

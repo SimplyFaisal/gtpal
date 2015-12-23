@@ -6,23 +6,25 @@ gtpal.controller('LoginController', LoginController);
 gtpal.controller('RegisterController', RegisterController);
 gtpal.directive('courseSelectionCard', CourseSelectionCard);
 
-function LoginController($state, Student, Tutor) {
+function LoginController($state, Student, Tutor, Session) {
     this.error = null;
 
     this.submit = function() {
         var isStudent = $state.current.name == 'signin.student';
         var user = isStudent ? Student : Tutor;
+        var nextState = isStudent ? 'student' : 'tutor';
 
         user.login({email: this.email, password: this.password}).$promise
             .then(function(user) {
-                console.log(user);
+                Session.setCurrentUser(user);
+                $state.go(nextState);
             }.bind(this), function(error) {
                 this.error = error.data;
             }.bind(this));
     };
 }
 
-function RegisterController($state, Student, Tutor, Course) {
+function RegisterController($state, Student, Tutor, Course, Session) {
     this.error = null;
     this.majors = Course.query();
 
@@ -39,7 +41,7 @@ function RegisterController($state, Student, Tutor, Course) {
             courses: Object.keys(this.selected)
         };
         user.register(credentials).$promise.then(function(user) {
-            console.log(user);
+            Session.setCurrentUser(user);
         }.bind(this), function(error) {
             this.error = error.data;
         }.bind(this));

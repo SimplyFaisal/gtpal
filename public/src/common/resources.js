@@ -5,9 +5,15 @@ var gtpal = angular.module('gtpal');
 gtpal.factory('Course', Course);
 gtpal.factory('Student', Student);
 gtpal.factory('Tutor', Tutor);
+gtpal.factory('Question', Question);
 
 function Course($resource) {
     return $resource('/course/:major', {major: '@major'});
+}
+
+function Question($resource) {
+    return $resource('/question/:major/:number', {major: '@major',
+        number: '@number'});
 }
 
 function Student($resource) {

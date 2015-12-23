@@ -21,4 +21,5 @@ var options = {
 
 router.post('/register', authentication.handler(passport, 'student-registration'));
 router.post('/login', authentication.handler(passport, 'student-login'));
+
 module.exports = router;

@@ -11,6 +11,8 @@ exports.isLoggedIn = function(request, response, next) {
     if (request.isAuthenticated()) {
         return next();
     }
+    request.status(401);
+    return request.send({message: 'Please log in.'});
     request.flash('UnautherizedMessage', 'Not Authorized');
 };
 

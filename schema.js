@@ -16,10 +16,11 @@ var StudentSchema = new mongoose.Schema({
 
 var QuestionSchema =  new mongoose.Schema({
     date: {type: Date, default: Date.now},
+    title: String,
     content: String,
-    student: {type: mongoose.Schema.Types.ObjectId, ref: 'students'},
-    course: [String],
-    anonymous: Boolean
+    author: {type: mongoose.Schema.Types.ObjectId, ref: 'students'},
+    course: {type: mongoose.Schema.Types.ObjectId, ref: 'questions'},
+    anonymous: {type: Boolean, default: false}
 });
 
 var VideoSchema = new mongoose.Schema({

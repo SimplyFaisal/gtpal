@@ -10,3 +10,7 @@ html, body {
 .full-buffer {
     margin: 3px;
 }
+
+.pull-right {
+    float: right;
+}
