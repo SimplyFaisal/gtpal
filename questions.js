@@ -7,7 +7,9 @@ var authentication = require('./authentication');
 var router = express.Router();
 var Question = schemas.Question;
 
-router.post('/', authentication.isLoggedIn, function(request, response) {
+//router.use(authentication.isLoggedIn);
+
+router.post('/', function(request, response) {
     var question = new Question();
     question.title = request.body.title;
     question.content = request.body.content;
@@ -20,6 +22,27 @@ router.post('/', authentication.isLoggedIn, function(request, response) {
             return response.send({message: 'An error occured.'});
         }
         return response.send(200);
+    });
+});
+
+router.get('/', function(request, response) {
+    var courses = request.param('courses').map(schemas.toObjectId);
+    Question.find({})
+        .where('course').in(courses)
+        .populate('course').exec().then(
+        function(questions) {
+            return response.json(questions);
+        }, function(error) {
+            response.send(500);
+        });
+});
+
+router.put('/upvote/:id', function(request, response) {
+    Question.findByIdAndUpdate(schemas.toObjectId(request.params.id),
+        { $inc: { upvotes: 1 }}).populate('course').exec().then(function(result) {
+            response.json(result);
+    }, function(error) {
+        response.send(500);
     });
 });
 

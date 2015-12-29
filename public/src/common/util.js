@@ -12,7 +12,7 @@ function LoginController($state, Student, Tutor, Session) {
     this.submit = function() {
         var isStudent = $state.current.name == 'signin.student';
         var user = isStudent ? Student : Tutor;
-        var nextState = isStudent ? 'student' : 'tutor';
+        var nextState = isStudent ? 'student.dory' : 'tutor.dory';
 
         user.login({email: this.email, password: this.password}).$promise
             .then(function(user) {
@@ -34,6 +34,7 @@ function RegisterController($state, Student, Tutor, Course, Session) {
 
     this.submit = function() {
         var user = this.isStudent ? Student : Tutor;
+        var nextState = isStudent ? 'student.dory' : 'tutor.dory';
         var credentials = {
             fullName: this.fullName,
             email: this.email,
@@ -42,6 +43,7 @@ function RegisterController($state, Student, Tutor, Course, Session) {
         };
         user.register(credentials).$promise.then(function(user) {
             Session.setCurrentUser(user);
+            $state.go(nextState);
         }.bind(this), function(error) {
             this.error = error.data;
         }.bind(this));

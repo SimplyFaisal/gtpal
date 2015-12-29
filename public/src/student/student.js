@@ -2,7 +2,61 @@
 
 var gtpal = angular.module('gtpal');
 
+gtpal.controller('StudentDoryController', StudentDoryController);
 gtpal.directive('submitQuestionCard', SubmitQuestionCard);
+gtpal.directive('studentQuestionCard', StudentQuestionCard);
+
+
+function StudentDoryController($state, Question, Session) {
+    var User = Session.getCurrentUser();
+    var courses = User ? User.courses :  ["5671f12f1dd1f8d6104f61f7", "5671f12f1dd1f8d6104f61fd", "5671f12f1dd1f8d6104f6250"];
+    this.questions = Question.query({courses: courses});
+
+    this.saveQuestion = function(question) {
+        return User.$saveQuestion({id: question._id});
+    };
+
+}
+
+function StudentSavedController($state, Question, Session) {
+    var User = Session.getCurrentUser();
+
+}
+
+function StudentQuestionCard() {
+    var directive = {
+        scope: {
+            question: '=',
+            saveQuestion: '&'
+        },
+        templateUrl: '/src/student/student-question-card-template.html'
+    };
+
+    directive.controller = function($scope) {
+
+        $scope.save = function() {
+            $scope.saveQuestion({question: $scope.question}).then(function(resposne) {
+                $scope.success = true;
+                setTimeout(function() {
+                    $scope.success = false;
+                    $scope.$apply();
+                }, 1500);
+            }, function(error) {
+
+            });
+        };
+
+        $scope.upvote = function() {
+            $scope.question.$upvote({id: $scope.question._id}).then(function(response) {
+                $scope.question.upvotes++;
+            }, function(error) {
+
+            });
+        };
+    };
+
+    return directive;
+}
 
 function SubmitQuestionCard() {
     var directive = {
@@ -16,6 +70,7 @@ function SubmitQuestionCard() {
         $scope.vm.selectedCourse = 'Courses';
         $scope.visible = false;
         $scope.courses = null;
+        $scope.submitted = false;
         $scope.selectedCourse = null;
         $scope.majors = Course.query();
 
@@ -44,7 +99,12 @@ function SubmitQuestionCard() {
             // TODO: enable anonymity.
 
             question.$save(function(data) {
-                console.log('success');
+                $scope.submitted = true;
+                setTimeout(function() {
+                    $scope.submitted = false;
+                    $scope.toggle();
+                    $scope.$apply();
+                }, 2000);
             });
         };
     };

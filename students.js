@@ -21,5 +21,13 @@ var options = {
 
 router.post('/register', authentication.handler(passport, 'student-registration'));
 router.post('/login', authentication.handler(passport, 'student-login'));
-
+router.put('/save/:id', function(request, response) {
+    Students.findByIdAndUpdate(schemas.toObjectId(request.user.id),
+        {$addToSet: {saved: schemas.toObjectId(request.params.id)}})
+        .exec().then(function(data) {
+            response.send(200);
+        }, function(error) {
+            response.send(500);
+        });
+});
 module.exports = router;

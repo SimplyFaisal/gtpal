@@ -13,7 +13,12 @@ function Course($resource) {
 
 function Question($resource) {
     return $resource('/question/:major/:number', {major: '@major',
-        number: '@number'});
+        number: '@number'}, {
+            upvote: {
+                method: 'PUT',
+                url: 'question/upvote/:id'
+            }
+        });
 }
 
 function Student($resource) {
@@ -26,6 +31,10 @@ function Student($resource) {
         register:  {
             method: 'POST',
             url: 'student/register'
+        },
+        saveQuestion: {
+            method: 'PUT',
+            url: 'student/save/:id'
         }
     });
 }

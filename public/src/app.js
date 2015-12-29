@@ -43,11 +43,21 @@ gtpal.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('student', {
             url: '/student',
-            views: {
-                '': {
-                    templateUrl: 'src/student/student-main-template.html'
-                }
-            }
+            templateUrl: 'src/student/student-main-template.html'
+        })
+        .state('student.dory', {
+            url:'/dory',
+            templateUrl: 'src/student/student-dory-template.html',
+            controller: 'StudentDoryController',
+            controllerAs: 'studentDoryControl'
+        })
+        .state('student.videos', {
+            url:'/videos',
+            templateUrl: 'src/student/student-video-template.html'
+        })
+         .state('student.saved', {
+            url:'/saved',
+            templateUrl: 'src/student/student-saved-template.html'
         })
 });
 

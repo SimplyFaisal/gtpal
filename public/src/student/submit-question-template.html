@@ -1,5 +1,5 @@
 <div>
-    <div class="panel panel-primary">
+    <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title">submit a question <span  ng-click="toggle()" class="pull-right glyphicon glyphicon-plus"></span></h3>
         </div>
@@ -7,61 +7,66 @@
             <form class="form-horizontal">
                 <fieldset>
                     <legend>What can we help you with?</legend>
-                     <div class="btn-group">
+                    <div class="alert alert-dismissible alert-success"
+                         ng-show="submitted">
+                        <strong>We're on it!</strong> You're question has been <a href="#" class="alert-link">submitted.</a>.
+                    </div>
+                    <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{vm.selectedMajor}} <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
                             <li ng-repeat="major in majors"
                                 ng-click="selectMajor(major)"><a href="#">{{major}}</a></li>
-                        </ul>
+                            </ul>
                     </div>
                     <div class="btn-group">
-                        <button type="button"
-                                class="btn btn-primary dropdown-toggle"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                                ng-class="{default: selectedCourse == null}">
-                        {{vm.selectedCourse}} <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li ng-repeat="course in courses"
-                                ng-click="selectCourse(course)"><a href="#">{{course.number}}</a></li>
-                        </ul>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputEmail" class="col-lg-2 control-label">Title</label>
-                        <div class="col-lg-10">
-                            <input type="text"
-                                   class="form-control"
-                                   id="inputEmail"
-                                   placeholder="make it descriptive"
-                                   ng-model="title"
-                                   required>
+                            <button type="button"
+                            class="btn btn-primary dropdown-toggle"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            ng-class="{default: selectedCourse == null}">
+                            {{vm.selectedCourse}} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="course in courses"
+                                    ng-click="selectCourse(course)"><a href="#">{{course.number}}</a></li>
+                                </ul>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="textArea" class="col-lg-2 control-label">Details</label>
-                        <div class="col-lg-10">
-                            <textarea class="form-control"
-                                      rows="3"
-                                      id="textArea"
-                                      placeholder="Details please.."
-                                      ng-model="content"
-                                      required></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-10 col-lg-offset-2">
-                            <button type="reset" class="btn btn-default">Cancel</button>
-                            <button type="submit"
+                        <div class="panel-heading"></div>
+                            <div class="form-group">
+                                <label for="inputEmail" class="col-lg-2 control-label">Title</label>
+                                <div class="col-lg-10">
+                                    <input type="text"
+                                    class="form-control"
+                                    id="inputEmail"
+                                    placeholder="make it descriptive"
+                                    ng-model="title"
+                                    required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="textArea" class="col-lg-2 control-label">Details</label>
+                                <div class="col-lg-10">
+                                    <textarea class="form-control"
+                                    rows="3"
+                                    id="textArea"
+                                    placeholder="Details please.."
+                                    ng-model="content"
+                                    required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-10 col-lg-offset-2">
+                                    <button type="reset" class="btn btn-default">Cancel</button>
+                                    <button type="submit"
                                     class="btn btn-primary"
                                     ng-click="submit()">Submit</button>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
-</div>

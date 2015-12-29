@@ -1,0 +1,19 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title inline">{{question.title}}</h3>
+        <span class="glyphicon glyphicon-arrow-up pull-right side-buffer"
+        title="Upvote this question" ng-click="upvote()">{{question.upvotes}}</span>
+        <span class="glyphicon glyphicon-bookmark pull-right side-buffer"
+            title="save this question"
+        ng-click="save()"></span>
+        <span class="label label-default pull-right">{{question.course.major}} {{question.course.number}}</span>
+    </div>
+    <div class="panel-body">
+        <div class="alert alert-dismissible alert-success"
+             ng-show="success">
+            <button type="button" class="close" data-dismiss="alert"></button>
+            <strong>Saved!</strong>
+        </div>
+        {{question.content}}
+    </div>
+</div>
