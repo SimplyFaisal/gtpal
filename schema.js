@@ -1,27 +1,34 @@
 var mongoose = require('mongoose');
+var uuid = require('node-uuid');
+var authentication = require('./authentication');
 
 var ROLES = {
     TUTOR: 1,
     STUDENT: 2
 };
 
-var TutorSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    password: String,
-    courses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Course'}],
-    saved: [{type: mongoose.Schema.Types.ObjectId, ref: 'Course'}],
-    role: {type: String, default: ROLES.TUTOR}
-});
+function BaseUserFields() {
+    this.name = {type: String, required: true};
+    this.email = {type: String, required: true};
+    this.password = {type: String, required: true};
+    this.salt =  { type: String, required: true, default: uuid.v1 };
+    this.courses = [{type: mongoose.Schema.Types.ObjectId, ref: 'Course'}];
+    this.saved = [{type: mongoose.Schema.Types.ObjectId, ref: 'Course'}];
+}
 
-var StudentSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    password: String,
-    courses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Course'}],
-    saved: [{type: mongoose.Schema.Types.ObjectId, ref: 'Course'}],
-    role: {type: String, default: ROLES.STUDENT}
-});
+function TutorFields () {
+    BaseUserFields.call(this);
+    this.role = {type: Number, default: ROLES.TUTOR};
+}
+
+function StudentFields() {
+    BaseUserFields.call(this);
+    this.role = {type: Number, default: ROLES.STUDENT};
+}
+
+var TutorSchema = new mongoose.Schema(new TutorFields());
+
+var StudentSchema = new mongoose.Schema(new StudentFields());
 
 var QuestionSchema =  new mongoose.Schema({
     date: {type: Date, default: Date.now},
@@ -47,8 +54,12 @@ var CourseSchema = new mongoose.Schema({
     numVideos: {type: Number, default: 0}
 });
 
+function setPassword(password) {
+    this.password = authentication.hash(password, this.salt);
+}
+
 function validPassword(password) {
-    return this.password == password;
+    return this.password == authentication.hash(password, this.salt);
 }
 
 function toObjectId(id) {
@@ -57,6 +68,9 @@ function toObjectId(id) {
 
 TutorSchema.methods.validPassword = validPassword;
 StudentSchema.methods.validPassword = validPassword;
+
+TutorSchema.methods.setPassword = setPassword;
+StudentSchema.methods.setPassword = setPassword;
 
 exports.Tutor = mongoose.model('Tutor', TutorSchema);
 exports.Student = mongoose.model('Student', StudentSchema);

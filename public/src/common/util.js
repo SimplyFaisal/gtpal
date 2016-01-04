@@ -34,7 +34,7 @@ function RegisterController($state, Student, Tutor, Course, Session) {
 
     this.submit = function() {
         var user = this.isStudent ? Student : Tutor;
-        var nextState = isStudent ? 'student.dory' : 'tutor.dory';
+        var nextState = this.isStudent ? 'student.dory' : 'tutor.dory';
         var credentials = {
             fullName: this.fullName,
             email: this.email,

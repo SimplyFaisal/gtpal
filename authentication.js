@@ -1,11 +1,10 @@
 var mongoose = require('mongoose');
+var crypto = require('crypto');
+var uuid = require('node-uuid');
 
-// TODO: salt and hash passwords.
-function encrypt(password) {
-    return password;
-}
-
-exports.encrypt = encrypt;
+exports.hash = function(password, salt) {
+    return crypto.createHmac('sha256', salt).update(password).digest('hex');
+};
 
 exports.isLoggedIn = function(request, response, next) {
     if (request.isAuthenticated()) {
@@ -49,7 +48,7 @@ exports.register = function(Model) {
             var newUser = new Model();
             newUser.name = request.body.fullName;
             newUser.email = email;
-            newUser.password = encrypt(password);
+            newUser.setPassword(password);
             newUser.courses = request.body.courses.map(function(id) {return new mongoose.Types.ObjectId(id)});
             newUser.save(function(err) {
                 // TODO: handle error
